@@ -20,9 +20,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         navController = UINavigationController(rootViewController: MainViewController())
         
+        navController?.navigationBar.isHidden = true
         
         window.rootViewController = navController
         window.makeKeyAndVisible()
+        
+        print("Directory path: \(NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).last! as String)")
         
         return true
     }
