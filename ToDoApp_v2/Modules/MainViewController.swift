@@ -111,6 +111,7 @@ class MainViewController: UIViewController{
         do{
             let data = try encoder.encode(self.tasks)
             try data.write(to: filePath!)
+            self.reloadData()
         }catch{
             print("Failed to encode Data: \(error)")
         }
@@ -143,8 +144,6 @@ class MainViewController: UIViewController{
                 let task = Task(title: text, isDone: false)
                 
                 self.tasks.append(task)
-    
-                self.reloadData()
                 self.saveTasksData()
                 
             }
@@ -175,7 +174,6 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource{
         
         tasks[indexPath.row] = tasks[indexPath.row].changeIsDoneProperty()
         saveTasksData()
-        reloadData()
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -189,7 +187,6 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource{
             
             tasks.remove(at: indexPath.row)
             saveTasksData()
-            reloadData()
         }
     }
     
