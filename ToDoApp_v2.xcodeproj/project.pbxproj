@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A2B3AE15355A0A21F56409C7 /* Pods_ToDoApp_v2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1116C35E35E4CB79AF324FB /* Pods_ToDoApp_v2.framework */; };
+		B406A46128B7625600034B6C /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = B406A46028B7625600034B6C /* Task.swift */; };
 		B42E330928B485C500D4129B /* TextFieldExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B42E330828B485C500D4129B /* TextFieldExtension.swift */; };
 		B4A84C8128B103830041AAF6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4A84C8028B103830041AAF6 /* AppDelegate.swift */; };
 		B4A84C8A28B103850041AAF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B4A84C8928B103850041AAF6 /* Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* Begin PBXFileReference section */
 		06FE8796FBC32840FD3BB298 /* Pods-ToDoApp_v2.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoApp_v2.release.xcconfig"; path = "Target Support Files/Pods-ToDoApp_v2/Pods-ToDoApp_v2.release.xcconfig"; sourceTree = "<group>"; };
 		A1116C35E35E4CB79AF324FB /* Pods_ToDoApp_v2.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoApp_v2.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B406A46028B7625600034B6C /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		B42E330828B485C500D4129B /* TextFieldExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldExtension.swift; sourceTree = "<group>"; };
 		B4A84C7D28B103830041AAF6 /* ToDoApp_v2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoApp_v2.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4A84C8028B103830041AAF6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 			children = (
 				B4A84C9428B106210041AAF6 /* MainViewController.swift */,
 				B4A84C9928B116410041AAF6 /* TaskTableViewCell.swift */,
+				B406A46028B7625600034B6C /* Task.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -239,6 +242,7 @@
 			files = (
 				B4A84C8128B103830041AAF6 /* AppDelegate.swift in Sources */,
 				B42E330928B485C500D4129B /* TextFieldExtension.swift in Sources */,
+				B406A46128B7625600034B6C /* Task.swift in Sources */,
 				B4A84C9528B106210041AAF6 /* MainViewController.swift in Sources */,
 				B4A84C9A28B116410041AAF6 /* TaskTableViewCell.swift in Sources */,
 			);

@@ -49,14 +49,17 @@ class MainViewController: UIViewController{
         return tv
     }()
     
-    var array : [String] = ["Накормить кота","Выгулять собаку","Приготовить ужин"]
-    let userDefaults = UserDefaults.standard
+    var tasks : [Task] = []
+
     let tasksKey = "Tasks"
+    
+    let filePath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first?.appendingPathComponent("Tasks.plist")
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemGray6
         
+        print(filePath)
         setupViews()
         setupContreints()
         getTaskData()
@@ -89,10 +92,29 @@ class MainViewController: UIViewController{
     }
     
     private func getTaskData(){
-        if let tasks = userDefaults.stringArray(forKey: tasksKey){
-            array = tasks
-            reloadData()
+        let decoder = PropertyListDecoder()
+        
+        do{
+            if let data = try? Data(contentsOf: filePath!){
+                tasks = try decoder.decode([Task].self, from: data)
+                self.reloadData()
+            }
+        }catch{
+            print("Failed to decode Data: \(error)")
         }
+        
+    }
+    
+    private func saveTasksData(){
+        let encoder = PropertyListEncoder()
+        
+        do{
+            let data = try encoder.encode(self.tasks)
+            try data.write(to: filePath!)
+        }catch{
+            print("Failed to encode Data: \(error)")
+        }
+        
     }
     
     private func reloadData(){
@@ -117,11 +139,16 @@ class MainViewController: UIViewController{
             guard let text = tf.text else {return}
             
             if !text.isEmpty{
-                self.array.append(text)
+                
+                let task = Task(title: text, isDone: false)
+                
+                self.tasks.append(task)
+    
                 self.reloadData()
-                self.userDefaults.set(self.array, forKey: self.tasksKey)
+                self.saveTasksData()
+                
             }
-            print("Array: \(self.array)")
+            print("Array: \(self.tasks)")
             
         }
         alertView.addAction(action)
@@ -130,16 +157,40 @@ class MainViewController: UIViewController{
 
 extension MainViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return array.count
+        return tasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskTableViewCell", for: indexPath) as! TaskTableViewCell
         
-        cell.config(text: array[indexPath.row])
+        let task = tasks[indexPath.row]
+        
+        cell.config(text: task.title, isDone: task.isDone)
         
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        
+        tasks[indexPath.row] = tasks[indexPath.row].changeIsDoneProperty()
+        saveTasksData()
+        reloadData()
+        
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == .delete) {
+            // handle delete (by removing the data from your array and updating the tableview)
+            
+            tasks.remove(at: indexPath.row)
+            saveTasksData()
+            reloadData()
+        }
+    }
     
 }
