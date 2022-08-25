@@ -31,6 +31,7 @@ class MainViewController: UIViewController{
         tf.layer.masksToBounds = true
         tf.placeholder = "Search"
         tf.setLeftPaddingPoints(20)
+        tf.delegate = self
         
         return tf
     }()
@@ -50,6 +51,8 @@ class MainViewController: UIViewController{
     }()
     
     var tasks : [Task] = []
+    var searchedTaks: [Task] = []
+    var isSearching: Bool = false
 
     let tasksKey = "Tasks"
     
@@ -156,11 +159,25 @@ class MainViewController: UIViewController{
 
 extension MainViewController : UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tasks.count
+        if isSearching{
+            return searchedTaks.count
+        } else{
+            return tasks.count
+        }
+        
+     
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskTableViewCell", for: indexPath) as! TaskTableViewCell
+        
+        
+        
+        if isSearching{
+            
+        }else{
+            
+        }
         
         let task = tasks[indexPath.row]
         
@@ -190,4 +207,32 @@ extension MainViewController : UITableViewDelegate, UITableViewDataSource{
         }
     }
     
+}
+
+extension MainViewController: UITextFieldDelegate{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("Text editing ended")
+        guard let text = textField.text else {
+            isSearching = false
+            return
+            
+        }
+        if !text.isEmpty{
+            isSearching = true
+            for i in tasks{
+                if i.title.lowercased().contains("\(text.lowercased())"){
+                    searchedTaks.append(i)
+                }
+            }
+            self.reloadData()
+        } else{
+            isSearching = false
+        }
+        
+    }
 }
